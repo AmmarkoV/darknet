@@ -5,6 +5,12 @@
 #include "opencv2/opencv.hpp"
 #include "image.h"
 
+//Fix : src/image_opencv.cpp:12:1: error: ‘IplImage’ does not name a type
+//   12 | IplImage *image_to_ipl(image im)
+#include "opencv2/core/core_c.h"
+#include "opencv2/videoio/legacy/constants_c.h"
+#include "opencv2/highgui/highgui_c.h"
+
 using namespace cv;
 
 extern "C" {
@@ -60,7 +66,8 @@ Mat image_to_mat(image im)
 
 image mat_to_image(Mat m)
 {
-    IplImage ipl = m;
+    //IplImage ipl = m;
+    IplImage ipl = cvIplImage(m);
     image im = ipl_to_image(&ipl);
     rgbgr_image(im);
     return im;
